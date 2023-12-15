@@ -41,5 +41,18 @@ app.post('/create',  (req, res,) => {
     .catch(error => res.status(400).json({ error }));
 });
  
+app.get('/Oneobject/:id', (req, res) => {
+  const id = req.params.id;
+
+  Thing.findOne({_id: id})
+  .then((Thing) => res.status(201).json({Thing}))
+  .catch(error => res.status(400).json({ error }));
+});
+
+app.get('/Allobject', (req, res) => {
+Thing.find()
+.then((Thing) => res.status(201).json({Thing}))
+  .catch(error => res.status(400).json({ error }));
+});
 
 module.exports = app;
