@@ -1,19 +1,15 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-const Thing = require('./models/things');
+const RouteThings = require('./router/things');
 
-//configuration du serveur 
-const hostname = '127.0.0.1';
-const port = process.env.PORT || 3000;
+
 app.use(bodyParser.urlencoded({ extended: true }));
-app.listen(port, hostname, () => {
-	console.log(`Serveur demarré sur http://${hostname}:${port}`);
-});
+
 
 //Configuration BDD Mongodb
+const mongoose = require('mongoose');
 mongoose.connect('mongodb+srv://etudiant:etudiant@express.s0avcaa.mongodb.net/')
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
@@ -25,6 +21,9 @@ app.set('views', path.join(__dirname, '../views'));
 
 //Les routes 
 app.use(bodyParser.json());
+
+app.use('/api/things/', RouteThings);
+
 app.get('/create', (req, res) => {
 res.render('../views/createTask');
 });
@@ -33,26 +32,5 @@ app.get('/Todolist', (req, res) => {
   res.render('../views/Todolist');
   });
 
-app.post('/create',  (req, res,) => {
- const objet = new Thing(req.body);
-
- objet.save()
-    .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-    .catch(error => res.status(400).json({ error }));
-});
- 
-app.get('/Oneobject/:id', (req, res) => {
-  const id = req.params.id;
-
-  Thing.findOne({_id: id})
-  .then((Thing) => res.status(201).json({Thing}))
-  .catch(error => res.status(400).json({ error }));
-});
-
-app.get('/Allobject', (req, res) => {
-Thing.find()
-.then((Thing) => res.status(201).json({Thing}))
-  .catch(error => res.status(400).json({ error }));
-});
 
 module.exports = app;
