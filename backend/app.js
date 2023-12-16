@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use('/api/things/', RouteThings);
 
 app.get('/create', (req, res) => {
-res.render('../views/createTask');
+res.render('../views/formulaireadd');
 });
 
 app.get('/Todolist', (req, res) => {

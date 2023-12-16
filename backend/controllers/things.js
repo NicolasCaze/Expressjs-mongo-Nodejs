@@ -1,23 +1,41 @@
 const Thing = require('../models/things');
 
+
 exports.createThing = (req, res) => {
-    const newThing = new Thing(req.body);
+    const { title, description, imageUrl } = req.body;
+
+    const newThing = new Thing({
+        title,
+        description,
+        imageUrl,
+    });
+
     newThing.save()
-    .then(() => res.status(201).json({newThing}))
-    .catch(error => res.status(400).json({ error }));
+        .then(() => {
+            console.log('Objet enregistré avec succès');
+            res.redirect('/api/things');  
+        })
+        .catch(error => {
+            console.error('Erreur lors de l\'enregistrement de l\'objet :', error);
+            res.status(400).json({ error });
+        });
 };
+
 
 exports.OneThing = (req, res) => {
     const id = req.params.id;
 
     Thing.findOne({_id: id})
-    .then((Thing) => res.status(201).json({Thing}))
+    .then(thing => { res.render('../views/unobjet', {thing});
+})
     .catch(error => res.status(400).json({ error }));
 };
 
 exports.AllThing = (req, res) => {
     Thing.find()
-    .then((Thing) => res.status(201).json({Thing}))
+    .then(things => {
+        res.render('../views/list', { things });
+    })
     .catch(error => res.status(400).json({ error }));
 };
 

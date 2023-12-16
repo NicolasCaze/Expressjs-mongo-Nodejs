@@ -3,18 +3,18 @@ const router = express.Router();
 const ThingCtrl = require('../controllers/things');
 
 //Ajout d'un objet 
-router.post('/', ThingCtrl.createThing);
+router.get('/', ThingCtrl.AllThing);
 
 //Information d'un objet 
-router.get('/Oneobject/:id', ThingCtrl.OneThing);
+router.get('/object/:id', ThingCtrl.OneThing);
 
 //Information de tous les objets
-router.get('/Allobject', ThingCtrl.AllThing);
+router.post('/add', ThingCtrl.createThing);
 
 //Modifier un objet
-router.put('/Editobject/:id', ThingCtrl.EditThing);
+router.put('/edit/:id', ThingCtrl.EditThing);
 
 //Supprimer un objet
-router.delete('/Delete/:id', ThingCtrl.Delete);
+router.delete('/delete/:id', ThingCtrl.Delete);
 
 module.exports = router;

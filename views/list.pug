@@ -1,0 +1,8 @@
+extends layout.pug
+
+block content
+  h2 Tous les objets
+  ul
+    each thing in things
+      li
+        a(href=`/api/things/object/${thing._id}`)= thing.title
